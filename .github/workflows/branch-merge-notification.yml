@@ -10,7 +10,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Print Merge Info
+      - name: Send Slack Notification
         run: |
-          echo "PR was merged into main branch"
-          echo "Merged by ${{ github.actor }}"
+          curl -X POST -H "Content-type: application/json" \
+          --data "{
+            \"text\": \"🚀 PR merged into main branch!\nRepository: ${{ github.repository }}\nMerged by: ${{ github.actor }}\nPR Title: ${{ github.event.pull_request.title }}\"
+          }" \
+          ${{ secrets.SLACK_WEBHOOK_URL }}
