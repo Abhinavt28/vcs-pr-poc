@@ -1,0 +1,16 @@
+name: Branch Merge Notification
+
+on:
+  pull_request:
+    types: [closed]
+
+jobs:
+  notify:
+    if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Print Merge Info
+        run: |
+          echo "PR was merged into main branch"
+          echo "Merged by ${{ github.actor }}"
